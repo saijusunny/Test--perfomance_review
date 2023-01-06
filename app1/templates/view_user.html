@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.container-fluid{
+    background-color: black;
+    height: 800px;
+}
+.row{
+    padding: 3%;
+}
+.col-sm-5{
+    margin: 4%;
+    background-color: black;
+    height: 200px;
+    padding-top:35px ;
+    box-shadow: 0 0 32px 5px black;
+}
+
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12" style="background-color: #191c24; text-align: center; color: white;">
+            <h1>TRANSACTIONS DETAILS</h1>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row" style="background-color: #191c24; text-align: center; color: white;">
+                
+                <div class="col-sm-5" style="padding-top: 60px;">
+                        <h4>SEND MONEY DETAILS</h4>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="" data-dismiss="modal" data-target="#tr_snd" data-toggle="modal"><button class="btn btn-outline-info">DETAILS</button></a>
+                            </div>
+                            
+                        </div>
+                </div>
+
+                <div class="col-sm-5" style="padding-top: 60px;">
+                    <h4>REQUEST MONEY DETAILS</h4>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a href="" data-dismiss="modal" data-target="#tr_req" data-toggle="modal"><button class="btn btn-outline-info">DETAILS</button></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="tr_req">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
+                <div class="modal-header">
+                    <h3 class="m-3">REQUEST MONEY DETAILS</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Debit Acc. Name</th>
+                                <th>Debit Acc. Number</th>
+                                <th>Debit Acc. Branch</th>
+                                <th>Credit Acc. Name</th>
+                                <th>Credit Acc. Number</th>
+                                <th>Credit Acc. Branch</th>
+                                <th>Amount</th>
+                                
+                                
+                            </tr>
+                            {% for p in req_det%}
+                            <tr style="text-align: center;">
+                                <td>{{p.name}}</td>
+                                <td>{{p.accountno}}</td>
+                                <td>{{p.branch}}</td>
+                                <td>{{p.name2}}</td>
+                                <td>{{p.accountno2}}</td>
+                                <td>{{p.branch2}}</td>
+                                <td>{{p.ammount}}</td>
+                                
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade " id="tr_snd">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
+                <div class="modal-header">
+                    <h3 class="m-3">SEND MONEY DETAILS</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3 ">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Credit Acc. Name</th>
+                                <th>Credit Acc. Number</th>
+                                <th>Credit Acc. Branch</th>
+                                <th>Debit Acc. Name</th>
+                                <th>Debit Acc. Number</th>
+                                <th>Debit Acc. Branch</th>
+                                <th>Amount</th>
+                                
+                                
+                            </tr>
+                            {% for p in snd_det%}
+                            <tr>
+                                <td>{{p.name}}</td>
+                                <td>{{p.accountno}}</td>
+                                <td>{{p.branch}}</td>
+                                <td>{{p.name2}}</td>
+                                <td>{{p.accountno2}}</td>
+                                <td>{{p.branch2}}</td>
+                                <td>{{p.ammount}}</td>
+                                
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

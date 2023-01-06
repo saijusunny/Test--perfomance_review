@@ -1,0 +1,53 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
+    <link rel="stylesheet" href="{% static 'css\index.css'%}">
+</head>
+<body>
+
+<div class="container" >
+  <div class="row">
+    <div class="col-sm-12">
+      
+      {% for message in messages %}
+      <h5 style="text-align: center;">
+        <div class="alert alert-danger">
+          {{ message}}
+          </div>
+      </h5>
+      {%endfor%}
+    
+    </div>
+  </div>
+    
+  </div>
+    <div class="row" >
+      
+      <div class="col-sm-4" style="margin: 8% auto; background-color: #343a40; width: 100%; height: 300px;" >  
+            
+        <form action="{% url 'adminlogin'%}" method="POST" class="form" style="margin:70px auto; text-align: center;">
+          <h2 style="color: white;margin-bottom: 5%;">Login</h2>
+          {% csrf_token %}
+          <input type="text" name="username" style="margin-top: 2%;" class="form-control" placeholder="Username">
+          <input type="password" name="password" style="margin-top: 2%;" placeholder="Password" class="form-control">
+          <p style="margin-top:2%;color:white"> Don't have an account? <a href="{% url 'signup'%}" style="text-decoration: none;"><span id="signup">&nbsp Signup</span></a></p>
+          <input type="submit" class="btn btn-light" value="Login" >
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

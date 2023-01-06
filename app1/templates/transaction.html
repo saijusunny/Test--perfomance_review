@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.container-fluid{
+    background-color: black;
+    height: 800px;
+}
+.row{
+    padding: 3%;
+}
+.col-sm-3{
+    margin: 4%;
+    background-color: black;
+    height: 200px;
+    padding-top:35px ;
+    box-shadow: 0 0 32px 5px black;
+}
+
+</style>
+
+<div class="container-fluid">
+    {% if filt.role == stf %}
+    <div class="row">
+        <div class="col-sm-12" style="background-color: #191c24; text-align: center; color: white;">
+            <h1>Transaction List</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for t in dats %}
+        <div class="col-md-3" style="text-align:center;" >
+            <div class="card m-4" style="width: 18rem; height: auto;text-align: center;background-color: #191c24;color: white; ">
+                {% if filt.image == '/static/image/icon.png' %}
+                    <img class="card-img-top" style=" height: 300px; width: 18rem;" src="{%static 'image/noimage.jpg'%}">
+                {%else%}
+                    <img class="card-img-top" style=" height: 300px; width: 18rem;" src="{{filt.image.url }}">
+                {%endif%}
+                <div class="card-body">
+                <h5 class="card-title">{{ t.first_name }} {{ t.last_name }}</h5>
+                <h5 class="card-title">{{ t.email }}</h5>
+                <a href="{%url 'view_user' t.id %}"><button type="submit" class="btn  btn-outline-info btn-sm mx-5 my-3"> View Details </button><a>
+                
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <h2>
+                No Data
+            </h2>
+        {% endfor %}
+
+        
+    </div>
+    
+    
+    {%else%}
+    <div class="row">
+        <div class="col-sm-12" style="background-color: #191c24; text-align: center; color: white;">
+            <h1>TRANSACTIONS</h1>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row" style="background-color: #191c24; text-align: center; color: white;">
+                
+                <div class="col-sm-3" style="padding-top: 60px;">
+                    
+                        <h4>SEND MONEY</h4>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="" data-dismiss="modal" data-target="#crtt" data-toggle="modal"><button class="btn btn-outline-info">SEND MONEY</button></a>
+                            </div>
+                            
+                        </div>
+                    
+                </div>
+                
+                <div class="col-sm-3" style="padding-top: 60px;">
+                    
+                        <h4>REQUEST MONEY</h4>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a href="" data-dismiss="modal" data-target="#req" data-toggle="modal"><button class="btn btn-outline-info">REQUEST MONEY</button></a>
+                            </div>
+                            
+                        </div>
+                    
+                </div>
+                <div class="col-sm-3" >
+                    <h4>TRANSACTIONS</h4>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a href="" data-dismiss="modal" data-target="#tr_snd" data-toggle="modal"><button class="btn btn-outline-info">SEND MONEY</button></a>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="" data-dismiss="modal" data-target="#tr_req" data-toggle="modal"><button class="btn btn-outline-info">REQUEST MONEY</button></a>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    
+    {%endif%}
+    <div class="modal fade" id="crtt">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white">
+                <div class="modal-header">
+                    <h3 class="m-3">SEND MONEY</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <form method="post" action="{% url 'send_mny' filt.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h3 style="text-align: center; color: black;">DEBIT ACCOUNT DETAILS</h3><br><br>
+                                        <input type="text" name="name" style="margin-top: 3%;"  placeholder="Name" class="form-control" >   
+                                        <input type="text" name="acc_no" style="margin-top: 1%;" placeholder="Debit Account Number" class="form-control" >  
+                                        <input type="text" name="branch" placeholder="BRANCH" style="margin-top: 1%;" class="form-control" > 
+                                        <input type="text" name="amount" placeholder="Amount" style="margin-top: 1%;" class="form-control" > 
+                                    </div>
+                                
+                                    <div class="col-sm-6">
+                                        <h3 style="text-align: center; color: black;">CREDIT ACCOUNT DETAILS</h3><br><br>
+                                        <input type="text" name="name2" style="margin-top: 3%;"  placeholder="Credit Account Holder Name" class="form-control" >   
+                                        <input type="text" name="acc_no2" style="margin-top: 1%;" placeholder="Credit Account Number" class="form-control" >  
+                                        <input type="text" name="branch2" placeholder="Branch" style="margin-top: 1%;" class="form-control" > 
+                                    </div>
+                                </div>
+                               
+                            
+                                
+                                <button type="submit" class="btn btn-outline-info" style="margin-left: 42%;">Send Money
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="req">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white">
+                <div class="modal-header">
+                    <h3 class="m-3">REQUEST MONEY</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <form method="post" action="{% url 'req_mny' filt.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h3 style="text-align: center; color: black;">CREDIT ACCOUNT DETAILS</h3><br><br>
+                                        <input type="text" name="name" style="margin-top: 3%;"  placeholder="Name" class="form-control" >   
+                                        <input type="text" name="acc_no" style="margin-top: 1%;" placeholder="Credit Account Number" class="form-control" >  
+                                        <input type="text" name="branch" placeholder="BRANCH" style="margin-top: 1%;" class="form-control" > 
+                                        <input type="text" name="amount" placeholder="Amount" style="margin-top: 1%;" class="form-control" > 
+                                    </div>
+                                
+                                    <div class="col-sm-6">
+                                        <h3 style="text-align: center; color: black;">REQUEST ACCOUNT DETAILS</h3><br><br>
+                                        <input type="text" name="name2" style="margin-top: 3%;"  placeholder="Request Account Holder Name" class="form-control" >   
+                                        <input type="text" name="acc_no2" style="margin-top: 1%;" placeholder="Request Account Number" class="form-control" >  
+                                        <input type="text" name="branch2" placeholder="Branch" style="margin-top: 1%;" class="form-control" > 
+                                    </div>
+                                </div>
+                               
+                            
+                                
+                                <button type="submit" class="btn btn-outline-info" style="margin-left: 42%;">Send Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tr_req">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
+                <div class="modal-header">
+                    <h3 class="m-3">REQUEST MONEY DETAILS</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Debit Acc. Name</th>
+                                <th>Debit Acc. Number</th>
+                                <th>Debit Acc. Branch</th>
+                                <th>Credit Acc. Name</th>
+                                <th>Credit Acc. Number</th>
+                                <th>Credit Acc. Branch</th>
+                                <th>Amount</th>
+                                
+                                
+                            </tr>
+                            {% for p in req_det%}
+                            <tr style="text-align: center;">
+                                <td>{{p.name}}</td>
+                                <td>{{p.accountno}}</td>
+                                <td>{{p.branch}}</td>
+                                <td>{{p.name2}}</td>
+                                <td>{{p.accountno2}}</td>
+                                <td>{{p.branch2}}</td>
+                                <td>{{p.ammount}}</td>
+                                
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade " id="tr_snd">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
+                <div class="modal-header">
+                    <h3 class="m-3">SEND MONEY DETAILS</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3 ">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Credit Acc. Name</th>
+                                <th>Credit Acc. Number</th>
+                                <th>Credit Acc. Branch</th>
+                                <th>Debit Acc. Name</th>
+                                <th>Debit Acc. Number</th>
+                                <th>Debit Acc. Branch</th>
+                                <th>Amount</th>
+                                
+                                
+                            </tr>
+                            {% for p in snd_det%}
+                            <tr>
+                                <td>{{p.name}}</td>
+                                <td>{{p.accountno}}</td>
+                                <td>{{p.branch}}</td>
+                                <td>{{p.name2}}</td>
+                                <td>{{p.accountno2}}</td>
+                                <td>{{p.branch2}}</td>
+                                <td>{{p.ammount}}</td>
+                                
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
