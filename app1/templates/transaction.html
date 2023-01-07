@@ -31,10 +31,10 @@
         {% for t in dats %}
         <div class="col-md-3" style="text-align:center;" >
             <div class="card m-4" style="width: 18rem; height: auto;text-align: center;background-color: #191c24;color: white; ">
-                {% if filt.image == '/static/image/icon.png' %}
+                {% if t.image.url == "/media/static/image/icon.png" %}
                     <img class="card-img-top" style=" height: 300px; width: 18rem;" src="{%static 'image/noimage.jpg'%}">
                 {%else%}
-                    <img class="card-img-top" style=" height: 300px; width: 18rem;" src="{{filt.image.url }}">
+                    <img class="card-img-top" style=" height: 300px; width: 18rem;" src="{{t.image.url }}">
                 {%endif%}
                 <div class="card-body">
                 <h5 class="card-title">{{ t.first_name }} {{ t.last_name }}</h5>

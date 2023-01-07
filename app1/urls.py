@@ -18,6 +18,7 @@ urlpatterns = [
     path('send_mny/<int:id>', views.send_mny, name='send_mny'),
     path('req_mny/<int:id>', views.req_mny, name='req_mny'),
     path('view_user/<int:id>', views.view_user, name='view_user'),
+    path('up_pro/<int:id>', views.up_pro, name='up_pro'),
 
     
     

@@ -5,6 +5,7 @@ from . import models
 from  django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+import os
 
 # Create your views here.
 def login(request):
@@ -54,15 +55,14 @@ def usercreate(request):
         cpass=request.POST['cpassword']
         email=request.POST['email']
         role=request.POST['role']
-        print(request.FILES.get('file'))
+        
         if request.FILES.get('file') is not None:
             image=request.FILES.get('file')
         else:
             image = "static/image/icon.png"
-        print("saddsada")
-        print(role)
+       
         if role=="Staff":
-            print("welcome")
+         
             if password==cpass:
                 if Staff.objects.filter(username=username).exists():
                     messages.info(request, 'This Username Is Already Exists!!!!!')
@@ -124,8 +124,7 @@ def adminlogin(request):
 def user_management(request):
     ids=request.user.id
     role=request.user.role
-    print("asdadsa")
-    print(role)
+    
     if role=="USER":
     
         filt=Users.objects.get(id=ids)
@@ -133,10 +132,11 @@ def user_management(request):
         filt=Staff.objects.get(id=ids)
     dats=Users.objects.filter(role="USERS")
     
+    file="/static/image/icon.png"
     stf="STAFF"
     adm="ADMIN"
   
-    return render(request, 'usermanagement.html',{'filt':filt,"stf":stf,"adm":adm,"dats":dats})
+    return render(request, 'usermanagement.html',{'filt':filt,"stf":stf,"adm":adm,"dats":dats,"file":file})
 
 @login_required(login_url='login')
 def logout(request):
@@ -160,30 +160,42 @@ def editpro(request,pk):
             if password==cpass:
                 if password=="":
                     created = Staff.objects.filter(id=request.user.id).update(first_name=fname,last_name=lname,username=username,email=email)
-                else:
-                    created = Staff.objects.filter(id=request.user.id).update(first_name=fname,last_name=lname,username=username,email=email, password=password)
+                    return redirect('user_management')
+                else: 
+                    created = Staff.objects.filter(id=request.user.id).update(first_name=fname,last_name=lname,username=username,email=email,password=password)
+                    redirect('login')
+
             else:
                 messages.info(request,f"Check Entered Password And Confirm Password")
         else:
             
             stf = Users.objects.get(id=request.user.id)
             
-            fname=request.POST['first_name']
-            lname=request.POST['last_name']
-            username=request.POST['username']
-            password=request.POST['password']
-            cpass=request.POST['cpassword']
-            email=request.POST['email']
+            fname=request.POST.get('first_name')
+            lname=request.POST.get('last_name')
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            cpass=request.POST.get('cpassword')
+            email=request.POST.get('email')
+            print(fname)
             if password==cpass:
                 if password=="":
+                  
                     created = Users.objects.filter(id=request.user.id).update(first_name=fname,last_name=lname,username=username,email=email)
+                    
+                    return redirect('user_management')
                 else:
-                    created = Users.objects.filter(id=request.user.id).update(first_name=fname,last_name=lname,username=username,email=email, password=password)
+                    
+                    stf.created = Users.objects.filter(id=request.user.id).update(last_name=lname,username=username,email=email)
+                    u = Users.objects.get(id=request.user.id)
+                    u.set_password(password)
+                    u.save() 
+                    return redirect('login')
             else:
                 messages.info(request,f"Check Entered Password And Confirm Password")
-                
+                return redirect('user_management')
 
-        return redirect('user_management')
+        
     return redirect('user_management')
 
 def send_mny(request,id):
@@ -231,3 +243,21 @@ def view_user(request,id):
     req_det=money.objects.filter(user=id)
 
     return render(request, "view_user.html", {"req_det":req_det,"snd_det":snd_det})
+
+
+def up_pro(request,id):
+    if request.method=="POST":
+        pro = Users.objects.get(id=id)
+        if request.FILES.get('file') is not None:
+            image=request.FILES['file']
+        else:
+            image = "static/image/icon.png"
+       
+        # os.remove(pro.image.path)
+        pro.image=image
+        pro.save()
+        # created = Users.objects.filter(id=id).update(image=image)
+
+        return redirect('user_management')
+    else:
+        return redirect('user_management')
