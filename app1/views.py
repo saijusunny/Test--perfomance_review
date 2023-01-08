@@ -136,7 +136,7 @@ def user_management(request):
         filt=Staff.objects.get(id=ids)
     dats=Users.objects.filter(role="USERS")
 
-    print(filt.first_name)
+
     
     file="/static/image/icon.png"
     stf="STAFF"
@@ -184,7 +184,7 @@ def editpro(request,pk):
             password=request.POST.get('password')
             cpass=request.POST.get('cpassword')
             email=request.POST.get('email')
-            print(fname)
+           
             if password==cpass:
                 if password=="":
                   
@@ -254,17 +254,18 @@ def view_user(request,id):
 @login_required(login_url='login')
 def up_pro(request,id):
     if request.method=="POST":
+       
         User = get_user_model()
-        pro = Users.objects.get(id=id)
+        pro = User.objects.get(id=id)
         if request.FILES.get('file') is not None:
             image=request.FILES['file']
         else:
             image = "static/image/icon.png"
-        created = User.objects.filter(id=request.user.id).update(image=image)
-        # os.remove(pro.image.path)
-        # pro.image=image
-        # pro.save()
-        # created = Users.objects.filter(id=id).update(image=image)
+        # created = User.objects.filter(id=request.user.id).update(image=image)
+        os.remove(pro.image.path)
+        pro.image=image
+        pro.save()
+        # created = User.objects.filter(id=id).update(image=image)
 
         return redirect('user_management')
     else:
