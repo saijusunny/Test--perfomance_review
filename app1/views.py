@@ -14,7 +14,7 @@ def signup(request):
     
     return render(request, 'signup.html')
 
-
+@login_required(login_url='login')
 def trans(request):
     ids=request.user.id
     if request.user.role=="USER":
@@ -38,7 +38,7 @@ def trans(request):
 
     return render(request, 'transaction.html',context)
 
-
+@login_required(login_url='login')
 def home(request):
     ids=request.user.id
     filt=Users.objects.get(id=ids)
@@ -103,6 +103,7 @@ def usercreate(request):
     else:
         return redirect('signup')
 
+
 def adminlogin(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -121,6 +122,7 @@ def adminlogin(request):
     else:
         return redirect('login')
 
+@login_required(login_url='login')
 def user_management(request):
     ids=request.user.id
     role=request.user.role
@@ -131,6 +133,8 @@ def user_management(request):
     else:
         filt=Staff.objects.get(id=ids)
     dats=Users.objects.filter(role="USERS")
+
+    print(filt.first_name)
     
     file="/static/image/icon.png"
     stf="STAFF"
@@ -143,6 +147,7 @@ def logout(request):
     auth.logout(request)
     return redirect('login')
 
+@login_required(login_url='login')
 def editpro(request,pk):
     
     if request.method=='POST':
@@ -197,7 +202,7 @@ def editpro(request,pk):
 
         
     return redirect('user_management')
-
+@login_required(login_url='login')
 def send_mny(request,id):
     if request.method == 'POST':
             snd=transaction.objects.create(
@@ -217,7 +222,7 @@ def send_mny(request,id):
             return redirect("trans")
    
     return redirect("trans")
-
+@login_required(login_url='login')
 def req_mny(request,id):
     if request.method == 'POST':
             snd=money.objects.create(
@@ -237,14 +242,14 @@ def req_mny(request,id):
             return redirect("trans")
    
     return redirect("trans")
-
+@login_required(login_url='login')
 def view_user(request,id):
     snd_det=transaction.objects.filter(user=id)
     req_det=money.objects.filter(user=id)
 
     return render(request, "view_user.html", {"req_det":req_det,"snd_det":snd_det})
 
-
+@login_required(login_url='login')
 def up_pro(request,id):
     if request.method=="POST":
         pro = Users.objects.get(id=id)
