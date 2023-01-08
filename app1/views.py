@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import os
 
+from django.contrib.auth import get_user_model
+
 # Create your views here.
 def login(request):
     return render(request,'login.html')
@@ -191,7 +193,7 @@ def editpro(request,pk):
                     return redirect('user_management')
                 else:
                     
-                    stf.created = Users.objects.filter(id=request.user.id).update(last_name=lname,username=username,email=email)
+                    created = Users.objects.filter(id=request.user.id).update(last_name=lname,username=username,email=email)
                     u = Users.objects.get(id=request.user.id)
                     u.set_password(password)
                     u.save() 
@@ -252,15 +254,16 @@ def view_user(request,id):
 @login_required(login_url='login')
 def up_pro(request,id):
     if request.method=="POST":
+        User = get_user_model()
         pro = Users.objects.get(id=id)
         if request.FILES.get('file') is not None:
             image=request.FILES['file']
         else:
             image = "static/image/icon.png"
-       
+        created = User.objects.filter(id=request.user.id).update(image=image)
         # os.remove(pro.image.path)
-        pro.image=image
-        pro.save()
+        # pro.image=image
+        # pro.save()
         # created = Users.objects.filter(id=id).update(image=image)
 
         return redirect('user_management')
