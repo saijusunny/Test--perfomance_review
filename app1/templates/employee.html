@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.container-fluid{
+    background-color: black;
+    height: 900px;
+}
+.row{
+    padding: 3%;
+}
+.col-sm-3{
+    margin: 4%;
+    background-color: black;
+    height: 200px;
+    padding-top:35px ;
+    box-shadow: 0 0 32px 5px black;
+}
+
+</style>
+
+<div class="container-fluid">
+    {% if filt.role == stf %}
+    <div class="row">
+        <div class="col-sm-12" style="background-color: #191c24; text-align: center; color: white;">
+            <h1>Employee List</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for t in dats %}
+        <div class="col-md-4" style="text-align:center;" >
+            <div class="card m-4" style="width: 25rem; height: auto;text-align: center;background-color: #191c24;color: white; ">
+                {% if t.image.url == "/media/static/image/icon.png" %}
+                    <img class="card-img-top" style=" height: 400px; width: 18rem; text-align: center;" src="{%static 'image/noimage.jpg'%}">
+                {%else%}
+                    <img class="card-img-top" style=" height: 300px; width: 18rem; margin: 0 auto;" src="{{t.image.url }}">
+                {%endif%}
+                <div class="card-body">
+                <h5 class="card-title">Emp Id : {{ t.id }}</h5>
+                <h5 class="card-title">Emp Name : {{ t.first_name }} {{ t.last_name }}</h5>
+                <h5 class="card-title">Emp Email : {{ t.email }}</h5>
+                <h5 class="card-title">Emp Post : {{ t.post }}</h5>
+                <h5 class="card-title">Emp Salary : {{ t.salary }}</h5>
+                
+                
+                <a href="{%url 'view_user' t.id %}"><button type="submit" class="btn  btn-outline-info btn-sm mx-5 my-3"> View </button><a>
+
+                <a href="{%url 'up_pro' t.id %}"><button type="submit" class="btn  btn-outline-info btn-sm mx-5 my-3"> Delete </button><a>
+                   
+                
+                    
+                
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <h2>
+                No Data
+            </h2>
+        {% endfor %}
+
+        
+    </div>
+    
+    
+    {%else%}
+    {%endif%}
+</div>
+
+{% endblock %}

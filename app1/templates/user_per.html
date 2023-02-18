@@ -1,0 +1,67 @@
+{% extends 'user_base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+#staff{
+    background: url("/static/image/staff.jpg") 100% 0 no-repeat fixed;
+    color: white;
+    height: 700px;
+    padding: 50px 0 50px 0; 
+}
+
+
+.col-sm-8{
+    background-color: black; 
+    margin: 150px auto; 
+   
+    box-shadow: 0 0 32px 40px black;
+}
+h1{
+    padding-top: 50px;
+    text-align: center;
+}
+h3{
+    color: white;
+    padding-top: px;
+    text-align: center;
+}
+</style>
+
+<div class="container-fluid">
+
+    <div class="row" id="staff">
+        <div class="col-sm-8" style="margin: 0 auto; background-color:white; color: white;">
+            <table class="table table-striped">
+                <tr>
+                    <th>Emp Name</th>
+                    <th>Emp ID</th>
+                    <th>Work Details</th>
+                    <th>Percentage</th>
+                    <th>Date</th>
+                 
+                
+                     
+                </tr>
+                {% for dt in per_user %}
+                <tr>
+                    <td>{{dt.emp_name}}</td>
+                    <td>{{dt.emp_id}}</td>
+                    <td>{{dt.workdetails}}</td>
+                    <td>{{dt.percentage}}</td>
+                    <td>{{dt.date}}</td>
+                    
+                    
+
+                     
+                </tr>
+                {%endfor%}
+               
+                
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

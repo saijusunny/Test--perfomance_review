@@ -14,6 +14,9 @@ class User(AbstractUser):
     base_role = Role.ADMIN
 
     role = models.CharField(max_length=50, choices=Role.choices)
+    post = models.CharField(max_length=50, choices=Role.choices)
+    salary = models.CharField(max_length=50, choices=Role.choices)
+    
     image=models.ImageField(upload_to="image/", null=True)
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -77,23 +80,18 @@ class UsersProfile(models.Model):
 
 
 
-class transaction(models.Model):
+class feedback (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100)
-    accountno = models.CharField( max_length=100)
-    branch = models.CharField( max_length=100)
-    name2 = models.CharField( max_length=100)
-    accountno2 = models.CharField( max_length=100)
-    branch2 = models.CharField( max_length=100)
-    ammount= models.IntegerField(null=True)
+    assign_emp_id = models.CharField( max_length=100)
+    person_id = models.CharField( max_length=255)
+
     
-class money(models.Model):
+class performance(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100)
-    accountno = models.CharField( max_length=100)
-    branch = models.CharField( max_length=100)
-    name2 = models.CharField( max_length=100)
-    accountno2 = models.CharField( max_length=100)
-    branch2 = models.CharField( max_length=100)
-    ammount= models.IntegerField(null=True)
+    emp_name = models.CharField(max_length=100)
+    emp_id = models.CharField( max_length=100)
+    percentage = models.CharField( max_length=100)
+    workdetails=models.CharField( max_length=255)
+    date= models.DateField( max_length=100)
+    
 

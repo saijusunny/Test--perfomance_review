@@ -22,8 +22,21 @@
 
 <div class="container-fluid">
     <div class="row">
+        <div class="col-sm-12">
+          
+          {% for message in messages %}
+          <h5 style="text-align: center; color: white;">
+            <div class="alert alert-danger">
+              {{ message}}
+              </div>
+          </h5>
+          {%endfor%}
+        
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-12" style="background-color: #191c24; text-align: center; color: white;">
-            <h1>TRANSACTIONS DETAILS</h1>
+            <h1>Employee Details</h1>
         </div>
 
     </div>
@@ -33,21 +46,35 @@
             <div class="row" style="background-color: #191c24; text-align: center; color: white;">
                 
                 <div class="col-sm-5" style="padding-top: 60px;">
-                        <h4>SEND MONEY DETAILS</h4>
+                        <h4>Employee Details</h4>
                         <div class="row">
-                            <div class="col-sm-12">
-                                <a href="" data-dismiss="modal" data-target="#tr_snd" data-toggle="modal"><button class="btn btn-outline-info">DETAILS</button></a>
+                            <div class="col-sm-4">
+                                <a href="" data-dismiss="modal" data-target="#tr_snd" data-toggle="modal"><button class="btn btn-outline-info">View</button></a>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <a href="" data-dismiss="modal" data-target="#assign" onclick="add_per_usr()" data-toggle="modal"><button class="btn btn-outline-info">Assign</button></a>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <a href="" data-dismiss="modal" data-target="#edit_pro" data-toggle="modal"><button class="btn btn-outline-info">Edit</button></a>
                             </div>
                             
                         </div>
                 </div>
 
                 <div class="col-sm-5" style="padding-top: 60px;">
-                    <h4>REQUEST MONEY DETAILS</h4>
+                    <h4>Performance Review</h4>
                     <div class="row">
-                        <div class="col-sm-12">
-                            <a href="" data-dismiss="modal" data-target="#tr_req" data-toggle="modal"><button class="btn btn-outline-info">DETAILS</button></a>
-                        </div>
+                        
+                            <div class="col-sm-6">
+                                <a href="" data-dismiss="modal" data-target="#view_per" data-toggle="modal"><button class="btn btn-outline-info">View</button></a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="" data-dismiss="modal" data-target="#per_add" data-toggle="modal"><button class="btn btn-outline-info">Add</button></a>
+                            </div>
+                            
+                        
                         
                     </div>
                 </div>
@@ -55,11 +82,95 @@
 
         </div>
     </div>
-    <div class="modal fade" id="tr_req">
+
+    <div class="modal fade" id="per_add">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:800px;margin-left: -10px;">
+                <div class="modal-header">
+                    <h3 class="m-3">ADD PERFORMANCE</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+               
+
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        
+                                        <label for="" style="color:  black; margin-top: 60px; text-align: right;">Employee Name : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 15px;">Work Details : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 175px;">Percentage : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 14px;">Date : </label><br>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <form action="{% url 'add_performance' dats.id %}" method="POST" class="form" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <h1 style="color: white;">DETAILS</h1>
+                                            <input type="text" id="emp_name" name="emp_name" value="" style="margin-top: 3%;"  placeholder="Emp Name" class="form-control" >   
+                                            <textarea name="workdetails" id="workdetails" style="margin-top: 1%;"  cols="30" rows="8" placeholder="workdetails"></textarea>
+                                            <input type="number" id="percentage" name="percentage" placeholder="percentage" style="margin-top: 1%;" class="form-control">  
+                                            <input type="date" id="date" name="date" placeholder="Date" style="margin-top: 1%;" class="form-control">
+                                            
+                                            
+                                            <input type="submit"  class="btn  btn-outline-info" value="Save" style="margin: 3% auto;" >
+                                            
+                                          </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="assign">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
                 <div class="modal-header">
-                    <h3 class="m-3">REQUEST MONEY DETAILS</h3>
+                    <h3 class="m-3">ASSIGN EMPLOYEE</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+               
+    
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <form action="{% url 'sav_assign' usr_id%}" method="POST" class="form" enctype="multipart/form-data" style="color:black">
+                            {% csrf_token %}
+                            <label for="">Employee Name:</label>
+                            <input type="text" name="emp_name" id="emp_namesss">
+                            <br>
+                            <label for="">Assign Employee Name:</label>
+                            <select name="assign_emp" id="emp_name">
+                                {% for enp in emp %}
+                                <option value="{{enp.id}}">{{enp.first_name}} {{enp.last_name}}</option>
+                                {% endfor %}
+                            </select>  <br>
+                            
+                            <input type="submit"  class="btn  btn-outline-info" value="Save" style="margin: 3% auto;" >
+                            
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="view_per">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -80px;">
+                <div class="modal-header">
+                    <h3 class="m-3">VIEW PERFORMANCE</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -68,29 +179,75 @@
                     <div class="card p-3 m-3">
                         <table class="table table-striped">
                             <tr>
-                                <th>Debit Acc. Name</th>
-                                <th>Debit Acc. Number</th>
-                                <th>Debit Acc. Branch</th>
-                                <th>Credit Acc. Name</th>
-                                <th>Credit Acc. Number</th>
-                                <th>Credit Acc. Branch</th>
-                                <th>Amount</th>
-                                
-                                
+                                <th>Emp Name</th>
+                                <th>Emp ID</th>
+                                <th>Work Details</th>
+                                <th>Percentage</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                                 
                             </tr>
-                            {% for p in req_det%}
-                            <tr style="text-align: center;">
-                                <td>{{p.name}}</td>
-                                <td>{{p.accountno}}</td>
-                                <td>{{p.branch}}</td>
-                                <td>{{p.name2}}</td>
-                                <td>{{p.accountno2}}</td>
-                                <td>{{p.branch2}}</td>
-                                <td>{{p.ammount}}</td>
-                                
+                            {% for dt in per_user %}
+                            <tr>
+                                <td>{{dt.emp_name}}</td>
+                                <td>{{dt.emp_id}}</td>
+                                <td>{{dt.workdetails}}</td>
+                                <td>{{dt.percentage}}</td>
+                                <td>{{dt.date}}</td>
+                                <td><a href="" data-dismiss="modal" data-target="#per_edit" data-toggle="modal" onclick="edit_performance('{{dt.id}}')"><button class="btn btn-outline-info">Edit</button></a></td>
+
+                                 
                             </tr>
                             {%endfor%}
+                           
+                            
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="per_edit">
+        <div class="modal-dialog modal-lg  modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:800px;margin-left: -10px;">
+                <div class="modal-header">
+                    <h3 class="m-3">EDIT PERFORMANCE</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+               
+
+                <div class="modal-body">
+                    <div class="card p-3 m-3">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        
+                                        <label for="" style="color:  black; margin-top: 60px; text-align: right;">Employee Name : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 15px;">Work Details : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 175px;">Percentage : </label><br>
+                                        <label for="" style="color:  black;  margin-top: 14px;">Date : </label><br>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <form action="{% url 'edit_performance' usr_id %}" method="POST" class="form" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <h1 style="color: white;">DETAILS</h1>
+                                            <input type="text" id="emp_names" name="emp_name" style="margin-top: 3%;"  placeholder="Emp Name" class="form-control" >   
+                                            <textarea name="workdetails" id="workdetailss" cols="30" rows="8" placeholder="workdetails"></textarea>
+                                            <input type="number" id="percentagess" name="percentage" placeholder="percentage" style="margin-top: 1%;" class="form-control">  
+                                            <input type="date" id="dates" name="date" placeholder="Date" style="margin-top: 1%;" class="form-control">
+                                            
+                                            
+                                            <input type="submit"  class="btn  btn-outline-info"  value="Save" style="margin: 3% auto;" >
+                                            
+                                          </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,41 +256,135 @@
 
 
     <div class="modal fade " id="tr_snd">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -190px;">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1200px;margin-left: -50px;">
                 <div class="modal-header">
-                    <h3 class="m-3">SEND MONEY DETAILS</h3>
+                    <h3 class="m-3">PROFILE</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="card p-3 m-3 ">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Credit Acc. Name</th>
-                                <th>Credit Acc. Number</th>
-                                <th>Credit Acc. Branch</th>
-                                <th>Debit Acc. Name</th>
-                                <th>Debit Acc. Number</th>
-                                <th>Debit Acc. Branch</th>
-                                <th>Amount</th>
-                                
-                                
-                            </tr>
-                            {% for p in snd_det%}
-                            <tr>
-                                <td>{{p.name}}</td>
-                                <td>{{p.accountno}}</td>
-                                <td>{{p.branch}}</td>
-                                <td>{{p.name2}}</td>
-                                <td>{{p.accountno2}}</td>
-                                <td>{{p.branch2}}</td>
-                                <td>{{p.ammount}}</td>
-                                
-                            </tr>
-                            {%endfor%}
-                        </table>
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                              
+                              {% for message in messages %}
+                              <h5 style="text-align: center;">
+                                <div class="alert alert-danger">
+                                  {{ message}}
+                                  </div>
+                              </h5>
+                              {%endfor%}
+                            
+                            </div>
+                          </div>
+                        <div class="row">
+                            
+                            <div class="col-sm-12"style="background-color: #191c24; text-align: center; color: white;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        {% if dats.image.url == "/media/static/image/icon.png" %}
+                                        <td>
+                                          <img src="{% static 'image/noimage.jpg' %}" class="w-50">
+                                       </td>    
+                                        {% else %}
+                                        <td>
+                                          <img src="{{ dats.image.url }}" class="w-50" style="border-radius: 400px;">
+                                       </td>
+                                       {% endif %}
+                                     
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                            <form   method="POST" class="form" enctype="multipart/form-data" style="padding-top: 10%;">
+                                                {% csrf_token %}
+                                                <h1 style="color: white;">DETAILS</h1>
+                                                <input type="text" id="first_name" name="first_name" style="margin-top: 3%;"  placeholder="First Name" class="form-control" value="{{dats.first_name}}" disabled>   
+                                                <input type="text" id="last_name" name="last_name" style="margin-top: 1%;" placeholder="Last Name" class="form-control" value="{{dats.last_name}}" disabled>  
+                                                <input type="text" id="username" name="username" placeholder="Username" style="margin-top: 1%;" class="form-control" value="{{dats.username}}" disabled>  
+                                                <input type="password" id="password" name="password" placeholder="Password" style="margin-top: 1%;" class="form-control" value="**********" disabled>  
+                                                <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password" style="margin-top: 1%;" class="form-control" value="**********" >
+                                                <input type="email" id="email" name="email" placeholder="Email" style="margin-top: 1%;" class="form-control" value="{{dats.email}}" disabled>
+                                                
+                                                
+                                                
+                                                
+                                              </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="edit_pro">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="background-color: #191c24; color: white;width:1600px;margin-left: -50px;">
+                <div class="modal-header">
+                    <h3 class="m-3">EDIT PROFILE</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card p-3 m-3 ">
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                              
+                              {% for message in messages %}
+                              <h5 style="text-align: center;">
+                                <div class="alert alert-danger">
+                                  {{ message}}
+                                  </div>
+                              </h5>
+                              {%endfor%}
+                            
+                            </div>
+                          </div>
+                        <div class="row">
+                            
+                            <div class="col-sm-12"style="background-color: #191c24; text-align: center; color: white;">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        {% if dats.image.url == "/media/static/image/icon.png" %}
+                                        <td>
+                                          <img src="{% static 'image/noimage.jpg' %}" class="w-50">
+                                       </td>    
+                                        {% else %}
+                                        <td>
+                                          <img src="{{ dats.image.url }}" class="w-50" style="border-radius: 400px;">
+                                       </td>
+                                       {% endif %}
+                                     
+                                    </div>
+                                    <div class="col-sm-6">
+                                        
+                                            <form action="{% url 'editpro' dats.id %}" method="POST" class="form" enctype="multipart/form-data" style="padding-top: 10%;">
+                                                {% csrf_token %}
+                                                <h1 style="color: white;">DETAILS</h1>
+                                                <input type="text" id="first_name" name="first_name" style="margin-top: 3%;" value="{{dats.first_name}}"  placeholder="First Name" class="form-control" value="  ">   
+                                                <input type="text" id="last_name" name="last_name" style="margin-top: 1%;" placeholder="Last Name" class="form-control" value="{{dats.last_name}}">  
+                                                <input type="text" id="username" name="username" placeholder="Username" style="margin-top: 1%;" class="form-control" value="{{dats.username}}">  
+                                                <input type="password" id="password" name="password" placeholder="Password" style="margin-top: 1%;" class="form-control" value="">  
+                                                <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password" style="margin-top: 1%;" class="form-control" value="" >
+                                                <input type="email" id="email" name="email" placeholder="Email" style="margin-top: 1%;" class="form-control" value="{{dats.email}}">
+                                                
+                                                
+                                                <input type="submit"  class="btn  btn-outline-info" value="Save" style="margin: 3% auto;" >
+                                                
+                                              </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -141,5 +392,47 @@
     </div>
 
 </div>
+<script>
+
+function add_per_usr(){
+    fr=document.getElementById('first_name').value;
+    lr=document.getElementById('last_name').value;
+    document.getElementById('emp_namesss').value=fr+" "+lr
+
+}
+
+function edit_performance(el){
+    var ldg=el
+
+
+    $.ajax({
+        type: "GET",
+        url: "{% url 'get_det_per' %}",
+        data: {
+            ldg : ldg,
+
+            
+        },
+        success:function(response){
+                console.log(response)
+                emp_name=response.emp_name
+                workdetails=response.workdetails
+                percentage=response.percentage
+                date=response.date
+
+            
+
+                document.getElementById('emp_names').value = emp_name;
+                document.getElementById('workdetailss').value = workdetails;
+                document.getElementById('percentagess').value = percentage;
+                document.getElementById('dates').value = date;
+                
+               
+
+        }});
+
+    
+}
+</script>
 
 {% endblock %}

@@ -34,25 +34,14 @@ h3{
 </style>
 
 <div class="container-fluid">
-    {% if filt.role == stf %}
+
     <div class="row" id="staff">
         <div class="col-sm-4">
             <h1>Welcome</h1>
             <h3>{{filt.first_name}} {{filt.last_name}}</h3>
         </div>
     </div>
-    
-    
-    {%else%}
-    <div class="row" id="user">
-        <div class="col-sm-4">
-            <h1>Welcome</h1>
-            <h3>{{filt.first_name}} {{filt.last_name}}</h3>
-        </div>
-    </div>
-    
-    {%endif%}
-    
+
 </div>
 
 {% endblock %}

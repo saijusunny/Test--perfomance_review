@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+#staff{
+    background: url("/static/image/staff.jpg") 100% 0 no-repeat fixed;
+    color: white;
+    height: 700px;
+    padding: 50px 0 50px 0; 
+}
+
+
+.col-sm-8{
+    background-color: black; 
+    margin: 150px auto; 
+   
+    box-shadow: 0 0 32px 40px black;
+}
+h1{
+    padding-top: 50px;
+    text-align: center;
+}
+h3{
+    color: white;
+    padding-top: px;
+    text-align: center;
+}
+</style>
+
+<div class="container-fluid">
+
+    <div class="row" id="staff">
+        <div class="col-sm-8" style="margin: 0 auto; background-color:white; color: white;">
+            <table class="table table-striped">
+                <tr>
+                    <th>Emp Name</th>
+                    <th>Emp ID</th>
+                    <th>Work Details</th>
+                    <th>Percentage</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                
+                     
+                </tr>
+                {% for dt in per_user %}
+                <tr>
+                    <td>{{dt.emp_name}}</td>
+                    <td>{{dt.emp_id}}</td>
+                    <td>{{dt.workdetails}}</td>
+                    <td>{{dt.percentage}}</td>
+                    <td>{{dt.date}}</td>
+                    <td><a href="" data-dismiss="modal" data-target="#per_add" data-toggle="modal" onclick=""><button class="btn btn-outline-info">Send</button></a></td>
+                    
+
+                     
+                </tr>
+                {%endfor%}
+               
+                
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="per_add">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #191c24; color: white;width:800px;margin-left: -10px;">
+            <div class="modal-header">
+                <h3 class="m-3">ADD PERFORMANCE</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+           
+
+            <div class="modal-body">
+                <div class="card p-3 m-3">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    
+                                    <label for="" style="color:  black; margin-top: 60px; text-align: right;">Employee Name : </label><br>
+                                    <label for="" style="color:  black;  margin-top: 15px;">Work Details : </label><br>
+                                    <label for="" style="color:  black;  margin-top: 175px;">Percentage : </label><br>
+                                    <label for="" style="color:  black;  margin-top: 14px;">Date : </label><br>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form action="{% url 'add_feed' %}" method="POST" class="form" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <h1 style="color: white;">DETAILS</h1>
+                                        <input type="text" id="emp_name" name="emp_name" value="{{ass_emp.first_name}} {{ass_emp.last_name}}" style="margin-top: 3%;"  placeholder="Emp Name" class="form-control" >   
+                                        <textarea name="workdetails" id="workdetails" cols="30" rows="8" placeholder="workdetails"></textarea>
+                                        <input type="number" id="percentage" name="percentage" placeholder="percentage" style="margin-top: 1%;" class="form-control">  
+                                        <input type="date" id="date" name="date" placeholder="Date" style="margin-top: 1%;" class="form-control">
+                                        <input type="hidden" id="per_id" name="per_id" value="{{ass_emp.id}}"   style="margin-top: 1%;" class="form-control">
+                                        
+                                        
+                                        <input type="submit"  class="btn  btn-outline-info" value="Save" style="margin: 3% auto;" >
+                                        
+                                      </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
